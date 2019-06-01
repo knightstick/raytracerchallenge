@@ -231,6 +231,19 @@ func TestNormalizing(t *testing.T) {
 	})
 }
 
+func TestDotProduct(t *testing.T) {
+	t.Run("The dot product of two tuples", func(t *testing.T) {
+		a := tuples.NewVector(1, 2, 3)
+		b := tuples.NewVector(2, 3, 4)
+		dot := a.Dot(b)
+
+		if dot != 20 {
+			t.Errorf("expected dot product of %v and %v to equal 20, but got %f",
+				a, b, dot)
+		}
+	})
+}
+
 func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
 	t.Helper()
 

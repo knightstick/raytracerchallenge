@@ -91,6 +91,15 @@ func (t Tuple) Magnitude() float64 {
 	return math.Sqrt(t.X*t.X + t.Y*t.Y + t.Z*t.Z + t.W*t.W)
 }
 
+// Dot or scalar product returns a scalar value from two Vectors, can be used
+// to represent the angle between two Vectors
+func (t Tuple) Dot(other Tuple) float64 {
+	return (t.X * other.X) +
+		(t.Y * other.Y) +
+		(t.Z * other.Z) +
+		(t.W * other.W)
+}
+
 const epsilon = 0.0001
 
 func inEpsilon(a, b float64) bool {
