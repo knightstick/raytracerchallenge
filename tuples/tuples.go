@@ -1,5 +1,7 @@
 package tuples
 
+import "math"
+
 // A Tuple is a list of 4 floats used to represent Points and Vectors
 type Tuple struct {
 	X float64
@@ -34,4 +36,17 @@ func (t Tuple) IsPoint() bool {
 // IsVector checks if a Tuple is a Vector
 func (t Tuple) IsVector() bool {
 	return t.W == 0
+}
+
+// Equal checks all fields in the Tuple are within a small distance from each
+// other
+func (t Tuple) Equal(other Tuple) bool {
+	return inEpsilon(t.X, other.X) && inEpsilon(t.Y, other.Y) &&
+		inEpsilon(t.Z, other.Z) && inEpsilon(t.W, other.W)
+}
+
+const epsilon = 0.0001
+
+func inEpsilon(a, b float64) bool {
+	return math.Abs(a-b) < epsilon
 }

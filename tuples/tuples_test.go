@@ -53,6 +53,26 @@ func TestTuples(t *testing.T) {
 	})
 }
 
+func TestTupleEquality(t *testing.T) {
+	t.Run("Two Tuples are equal if all the values are very close", func(t *testing.T) {
+		t1 := tuples.NewTuple(1.0, 2.5, 4.999, 0)
+		t2 := tuples.NewTuple(1.0000001, 2.50000056, 4.999000008, 0)
+
+		if !t1.Equal(t2) {
+			t.Errorf("expected %v to be equal to %v", t1, t2)
+		}
+	})
+
+	t.Run("Two Tuples are not equal if the values are different", func(t *testing.T) {
+		t1 := tuples.NewTuple(1.0, 2.5, 4.999, 0)
+		t2 := tuples.NewTuple(5.0, 2.5, 4.999, 0)
+
+		if t1.Equal(t2) {
+			t.Errorf("expected %v not to be equal to %v", t1, t2)
+		}
+	})
+}
+
 func assertInEpsilon(actual, expected float64, t *testing.T) {
 	t.Helper()
 
