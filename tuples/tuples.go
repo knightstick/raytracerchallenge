@@ -1,5 +1,7 @@
 package tuples
 
+import "math"
+
 // A Tuple is a list of 4 floats used to represent Points and Vectors
 type Tuple struct {
 	X float64
@@ -34,4 +36,80 @@ func (t Tuple) IsPoint() bool {
 // IsVector checks if a Tuple is a Vector
 func (t Tuple) IsVector() bool {
 	return t.W == 0
+}
+
+// Equal checks all fields in the Tuple are within a small distance from each
+// other
+func (t Tuple) Equal(other Tuple) bool {
+	return inEpsilon(t.X, other.X) && inEpsilon(t.Y, other.Y) &&
+		inEpsilon(t.Z, other.Z) && inEpsilon(t.W, other.W)
+}
+
+// Add returns a new Tuple which results from adding the other Tuple to the
+// first
+func (t Tuple) Add(other Tuple) Tuple {
+	return NewTuple(t.X+other.X,
+		t.Y+other.Y,
+		t.Z+other.Z,
+		t.W+other.W)
+}
+
+// Subtract returns a new Tuple which results from subtracting the other Tuple to the
+// first
+func (t Tuple) Subtract(other Tuple) Tuple {
+	return NewTuple(t.X-other.X,
+		t.Y-other.Y,
+		t.Z-other.Z,
+		t.W-other.W)
+}
+
+// Negate returns a new Tuple which negates each component of the Tuple
+func (t Tuple) Negate() Tuple {
+	return NewTuple(-t.X, -t.Y, -t.Z, -t.W)
+}
+
+// Multiply returns a new Tuple which represents the Tuple multiplied by a
+// scalar value
+func (t Tuple) Multiply(n float64) Tuple {
+	return NewTuple(t.X*n, t.Y*n, t.Z*n, t.W*n)
+}
+
+// Divide returns a new Tuple which represents the Tuple divided by a scalar
+// value
+func (t Tuple) Divide(n float64) Tuple {
+	return t.Multiply(1 / n)
+}
+
+// Normalize returns a unit Vector in the same direction as the Tuple
+func (t Tuple) Normalize() Tuple {
+	return t.Divide(t.Magnitude())
+}
+
+// Magnitude returns the length of a Vector, computed by summing the squares
+// of each value, then taking the square root
+func (t Tuple) Magnitude() float64 {
+	return math.Sqrt(t.X*t.X + t.Y*t.Y + t.Z*t.Z + t.W*t.W)
+}
+
+// Dot or scalar product returns a scalar value from two Vectors, can be used
+// to represent the angle between two Vectors
+func (t Tuple) Dot(other Tuple) float64 {
+	return (t.X * other.X) +
+		(t.Y * other.Y) +
+		(t.Z * other.Z) +
+		(t.W * other.W)
+}
+
+// Cross or Vector product returns a new Vector that is perpendicular to both
+// Vectors
+func (t Tuple) Cross(other Tuple) Tuple {
+	return NewVector((t.Y*other.Z)-(t.Z*other.Y),
+		(t.Z*other.X)-(t.X*other.Z),
+		(t.X*other.Y)-(t.Y*other.X))
+}
+
+const epsilon = 0.0001
+
+func inEpsilon(a, b float64) bool {
+	return math.Abs(a-b) < epsilon
 }
