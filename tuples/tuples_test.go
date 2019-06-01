@@ -40,6 +40,22 @@ func TestTuples(t *testing.T) {
 			t.Errorf("expected %v to be a Vector", a)
 		}
 	})
+
+	t.Run("NewPoint creates a Point", func(t *testing.T) {
+		point := tuples.NewPoint(4.3, -4.2, 3.1)
+
+		if !point.IsPoint() {
+			t.Errorf("expected %v to be a Point", point)
+		}
+	})
+
+	t.Run("NewVector creates a Vector", func(t *testing.T) {
+		point := tuples.NewVector(4.3, -4.2, 3.1)
+
+		if !point.IsVector() {
+			t.Errorf("expected %v to be a Vector", point)
+		}
+	})
 }
 
 func assertEqual(actual, expected float32, t *testing.T) {
