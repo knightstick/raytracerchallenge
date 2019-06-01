@@ -74,6 +74,12 @@ func (t Tuple) Multiply(n float64) Tuple {
 	return NewTuple(t.X*n, t.Y*n, t.Z*n, t.W*n)
 }
 
+// Divide returns a new Tuple which represents the Tuple divided by a scalar
+// value
+func (t Tuple) Divide(n float64) Tuple {
+	return t.Multiply(1 / n)
+}
+
 const epsilon = 0.0001
 
 func inEpsilon(a, b float64) bool {
