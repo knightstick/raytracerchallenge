@@ -45,6 +45,15 @@ func (t Tuple) Equal(other Tuple) bool {
 		inEpsilon(t.Z, other.Z) && inEpsilon(t.W, other.W)
 }
 
+// Add returns a new Tuple which results from adding the other Tuple to the
+// first
+func (t Tuple) Add(other Tuple) Tuple {
+	return NewTuple(t.X+other.X,
+		t.Y+other.Y,
+		t.Z+other.Z,
+		t.W+other.W)
+}
+
 const epsilon = 0.0001
 
 func inEpsilon(a, b float64) bool {

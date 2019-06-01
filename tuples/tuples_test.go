@@ -73,6 +73,18 @@ func TestTupleEquality(t *testing.T) {
 	})
 }
 
+func TestAddition(t *testing.T) {
+	a1 := tuples.NewTuple(3, -2, 5, 1)
+	a2 := tuples.NewTuple(-2, 3, 1, 0)
+
+	sum := a1.Add(a2)
+	expected := tuples.NewTuple(1, 1, 6, 1)
+
+	if !sum.Equal(expected) {
+		t.Errorf("expected %v, but got %v", expected, sum)
+	}
+}
+
 func assertInEpsilon(actual, expected float64, t *testing.T) {
 	t.Helper()
 
