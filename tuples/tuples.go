@@ -2,27 +2,27 @@ package tuples
 
 // A Tuple is a list of 4 floats used to represent Points and Vectors
 type Tuple struct {
-	X float32
-	Y float32
-	Z float32
-	W float32
+	X float64
+	Y float64
+	Z float64
+	W float64
 }
 
 const pointW = 1.0
 const vectorW = 0.0
 
 // NewTuple instantiates a new Tuple
-func NewTuple(x, y, z, w float32) Tuple {
+func NewTuple(x, y, z, w float64) Tuple {
 	return Tuple{X: x, Y: y, Z: z, W: w}
 }
 
 // NewPoint instatiates a new Point
-func NewPoint(x, y, z float32) Tuple {
+func NewPoint(x, y, z float64) Tuple {
 	return Tuple{X: x, Y: y, Z: z, W: pointW}
 }
 
 // NewVector instatiates a new Vector
-func NewVector(x, y, z float32) Tuple {
+func NewVector(x, y, z float64) Tuple {
 	return Tuple{X: x, Y: y, Z: z, W: vectorW}
 }
 
