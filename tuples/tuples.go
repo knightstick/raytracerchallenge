@@ -80,6 +80,12 @@ func (t Tuple) Divide(n float64) Tuple {
 	return t.Multiply(1 / n)
 }
 
+// Magnitude returns the length of a Vector, computed by summing the squares
+// of each value, then taking the square root
+func (t Tuple) Magnitude() float64 {
+	return math.Sqrt(t.X*t.X + t.Y*t.Y + t.Z*t.Z + t.W*t.W)
+}
+
 const epsilon = 0.0001
 
 func inEpsilon(a, b float64) bool {

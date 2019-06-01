@@ -152,6 +152,58 @@ func TestMultiplicationAndDivision(t *testing.T) {
 	})
 }
 
+func TestMagnitude(t *testing.T) {
+	t.Run("Computing the magnitude of Vector(1,0,0)", func(t *testing.T) {
+		v := tuples.NewVector(1, 0, 0)
+
+		magnitude := v.Magnitude()
+
+		if magnitude != 1 {
+			t.Errorf("expected magnitude of %v to be 1, got %f", v, magnitude)
+		}
+	})
+
+	t.Run("Computing the magnitude of Vector(0,1,0)", func(t *testing.T) {
+		v := tuples.NewVector(0, 1, 0)
+
+		magnitude := v.Magnitude()
+
+		if magnitude != 1 {
+			t.Errorf("expected magnitude of %v to be 1, got %f", v, magnitude)
+		}
+	})
+
+	t.Run("Computing the magnitude of Vector(0,0,1)", func(t *testing.T) {
+		v := tuples.NewVector(0, 0, 1)
+
+		magnitude := v.Magnitude()
+
+		if magnitude != 1 {
+			t.Errorf("expected magnitude of %v to be 1, got %f", v, magnitude)
+		}
+	})
+
+	t.Run("Computing the magnitude of Vector(1,2,3)", func(t *testing.T) {
+		v := tuples.NewVector(1, 2, 3)
+
+		magnitude := v.Magnitude()
+
+		if magnitude != math.Sqrt(14) {
+			t.Errorf("expected magnitude of %v to be √14, got %f", v, magnitude)
+		}
+	})
+
+	t.Run("Computing the magnitude of Vector(-1,-2,-3)", func(t *testing.T) {
+		v := tuples.NewVector(-1, -2, -3)
+
+		magnitude := v.Magnitude()
+
+		if magnitude != math.Sqrt(14) {
+			t.Errorf("expected magnitude of %v to be √14, got %f", v, magnitude)
+		}
+	})
+}
+
 func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
 	t.Helper()
 
