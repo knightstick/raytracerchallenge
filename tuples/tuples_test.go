@@ -132,6 +132,20 @@ func TestNegation(t *testing.T) {
 	})
 }
 
+func TestMultiplication(t *testing.T) {
+	t.Run("Multiplying a tuple by a scalar", func(t *testing.T) {
+		a := tuples.NewTuple(1, -2, 3, -4)
+
+		assertEqual(a.Multiply(3.5), tuples.NewTuple(3.5, -7, 10.5, -14), t)
+	})
+
+	t.Run("Multiplying a tuple by a fraction", func(t *testing.T) {
+		a := tuples.NewTuple(1, -2, 3, -4)
+
+		assertEqual(a.Multiply(0.5), tuples.NewTuple(0.5, -1, 1.5, -2), t)
+	})
+}
+
 func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
 	t.Helper()
 

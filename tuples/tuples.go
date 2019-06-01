@@ -68,6 +68,12 @@ func (t Tuple) Negate() Tuple {
 	return NewTuple(-t.X, -t.Y, -t.Z, -t.W)
 }
 
+// Multiply returns a new Tuple which represents the Tuple multiplied by a
+// scalar value
+func (t Tuple) Multiply(n float64) Tuple {
+	return NewTuple(t.X*n, t.Y*n, t.Z*n, t.W*n)
+}
+
 const epsilon = 0.0001
 
 func inEpsilon(a, b float64) bool {
