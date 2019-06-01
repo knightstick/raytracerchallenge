@@ -86,14 +86,30 @@ func TestAddition(t *testing.T) {
 }
 
 func TestSubtraction(t *testing.T) {
-	p1 := tuples.NewPoint(3, 2, 1)
-	p2 := tuples.NewPoint(5, 6, 7)
+	t.Run("Subtracting two points", func(t *testing.T) {
+		p1 := tuples.NewPoint(3, 2, 1)
+		p2 := tuples.NewPoint(5, 6, 7)
 
-	difference := p1.Subtract(p2)
-	expected := tuples.NewVector(-2, -4, -6)
+		difference := p1.Subtract(p2)
+		expected := tuples.NewVector(-2, -4, -6)
 
-	if !difference.Equal(expected) {
-		t.Errorf("expected %v, but got %v", expected, difference)
+		assertEqual(difference, expected, t)
+	})
+
+	t.Run("Subtracting a vector from a point", func(t *testing.T) {
+		p := tuples.NewPoint(3, 2, 1)
+		v := tuples.NewVector(5, 6, 7)
+
+		difference := p.Subtract(v)
+		expected := tuples.NewPoint(-2, -4, -6)
+
+		assertEqual(difference, expected, t)
+	})
+}
+
+func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
+	if !actual.Equal(expected) {
+		t.Errorf("expected %v, but got %v", expected, actual)
 	}
 }
 
