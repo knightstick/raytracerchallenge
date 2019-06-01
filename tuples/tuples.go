@@ -100,6 +100,14 @@ func (t Tuple) Dot(other Tuple) float64 {
 		(t.W * other.W)
 }
 
+// Cross or Vector product returns a new Vector that is perpendicular to both
+// Vectors
+func (t Tuple) Cross(other Tuple) Tuple {
+	return NewVector((t.Y*other.Z)-(t.Z*other.Y),
+		(t.Z*other.X)-(t.X*other.Z),
+		(t.X*other.Y)-(t.Y*other.X))
+}
+
 const epsilon = 0.0001
 
 func inEpsilon(a, b float64) bool {

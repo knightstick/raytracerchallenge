@@ -244,6 +244,16 @@ func TestDotProduct(t *testing.T) {
 	})
 }
 
+func TestCrossProduct(t *testing.T) {
+	t.Run("The cross product of two Vectors", func(t *testing.T) {
+		a := tuples.NewVector(1, 2, 3)
+		b := tuples.NewVector(2, 3, 4)
+
+		assertEqual(a.Cross(b), tuples.NewVector(-1, 2, -1), t)
+		assertEqual(b.Cross(a), tuples.NewVector(1, -2, 1), t)
+	})
+}
+
 func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
 	t.Helper()
 
