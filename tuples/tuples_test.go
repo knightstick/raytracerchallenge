@@ -85,6 +85,18 @@ func TestAddition(t *testing.T) {
 	}
 }
 
+func TestSubtraction(t *testing.T) {
+	p1 := tuples.NewPoint(3, 2, 1)
+	p2 := tuples.NewPoint(5, 6, 7)
+
+	difference := p1.Subtract(p2)
+	expected := tuples.NewVector(-2, -4, -6)
+
+	if !difference.Equal(expected) {
+		t.Errorf("expected %v, but got %v", expected, difference)
+	}
+}
+
 func assertInEpsilon(actual, expected float64, t *testing.T) {
 	t.Helper()
 

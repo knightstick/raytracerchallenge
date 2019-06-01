@@ -54,6 +54,15 @@ func (t Tuple) Add(other Tuple) Tuple {
 		t.W+other.W)
 }
 
+// Subtract returns a new Tuple which results from subtracting the other Tuple to the
+// first
+func (t Tuple) Subtract(other Tuple) Tuple {
+	return NewTuple(t.X-other.X,
+		t.Y-other.Y,
+		t.Z-other.Z,
+		t.W-other.W)
+}
+
 const epsilon = 0.0001
 
 func inEpsilon(a, b float64) bool {
