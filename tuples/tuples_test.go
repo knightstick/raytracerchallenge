@@ -117,6 +117,21 @@ func TestSubtraction(t *testing.T) {
 	})
 }
 
+func TestNegation(t *testing.T) {
+	t.Run("Subtracting a Vector from the zero Vector", func(t *testing.T) {
+		zero := tuples.NewVector(0, 0, 0)
+		v := tuples.NewVector(1, -2, 3)
+
+		assertEqual(zero.Subtract(v), tuples.NewVector(-1, 2, -3), t)
+	})
+
+	t.Run("Negating a Tuple", func(t *testing.T) {
+		v := tuples.NewTuple(1, -2, 3, -4)
+
+		assertEqual(v.Negate(), tuples.NewTuple(-1, 2, -3, 4), t)
+	})
+}
+
 func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
 	t.Helper()
 

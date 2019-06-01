@@ -63,6 +63,11 @@ func (t Tuple) Subtract(other Tuple) Tuple {
 		t.W-other.W)
 }
 
+// Negate returns a new Tuple which negates each component of the Tuple
+func (t Tuple) Negate() Tuple {
+	return NewTuple(-t.X, -t.Y, -t.Z, -t.W)
+}
+
 const epsilon = 0.0001
 
 func inEpsilon(a, b float64) bool {
