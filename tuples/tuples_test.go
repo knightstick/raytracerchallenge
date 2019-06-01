@@ -204,6 +204,33 @@ func TestMagnitude(t *testing.T) {
 	})
 }
 
+func TestNormalizing(t *testing.T) {
+	t.Run("Normalizing Vector (4, 0, 0) gives (1, 0, 0)", func(t *testing.T) {
+		v := tuples.NewVector(4, 0, 0)
+
+		assertEqual(v.Normalize(), tuples.NewVector(1, 0, 0), t)
+	})
+
+	t.Run("Normalizing Vector (1, 2, 3)", func(t *testing.T) {
+		v := tuples.NewVector(1, 2, 3)
+
+		expected := tuples.NewVector(0.26726, 0.53452, 0.80178)
+
+		assertEqual(v.Normalize(), expected, t)
+	})
+
+	t.Run("The magnitude of a normalized Vector", func(t *testing.T) {
+		v := tuples.NewVector(1, 2, 3)
+		norm := v.Normalize()
+
+		actualMagnitude := norm.Magnitude()
+
+		if norm.Magnitude() != 1 {
+			t.Errorf("expected %v to have magnitude 1, but got %f", norm, actualMagnitude)
+		}
+	})
+}
+
 func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
 	t.Helper()
 

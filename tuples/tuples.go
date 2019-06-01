@@ -80,6 +80,11 @@ func (t Tuple) Divide(n float64) Tuple {
 	return t.Multiply(1 / n)
 }
 
+// Normalize returns a unit Vector in the same direction as the Tuple
+func (t Tuple) Normalize() Tuple {
+	return t.Divide(t.Magnitude())
+}
+
 // Magnitude returns the length of a Vector, computed by summing the squares
 // of each value, then taking the square root
 func (t Tuple) Magnitude() float64 {
