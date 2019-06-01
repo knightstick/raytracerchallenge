@@ -7,7 +7,7 @@ import (
 	"github.com/knightstick/raytracerchallenge/tuples"
 )
 
-const epsilon = 0.01
+const epsilon = 0.00001
 
 func TestTuples(t *testing.T) {
 	t.Run("A Tuple can be a Point", func(t *testing.T) {
@@ -56,7 +56,7 @@ func TestTuples(t *testing.T) {
 func assertInEpsilon(actual, expected float64, t *testing.T) {
 	t.Helper()
 
-	if math.Abs(actual-expected) > epsilon {
+	if approximatelyEqual(actual, expected) {
 		t.Errorf("expected %f to be approximately equal to %f", actual, expected)
 	}
 }
@@ -68,4 +68,8 @@ func assertTupleEqual(tup tuples.Tuple, x, y, z, w float64, t *testing.T) {
 	assertInEpsilon(tup.Y, y, t)
 	assertInEpsilon(tup.Z, z, t)
 	assertInEpsilon(tup.W, w, t)
+}
+
+func approximatelyEqual(a, b float64) bool {
+	return math.Abs(a-b) > epsilon
 }
