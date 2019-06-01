@@ -10,7 +10,7 @@ import (
 const epsilon = 0.00001
 
 func TestTuples(t *testing.T) {
-	t.Run("A Tuple can be a Point", func(t *testing.T) {
+	t.Run("A Tuple with w=1.0 is a point", func(t *testing.T) {
 		a := tuples.NewTuple(4.3, -4.2, 3.1, 1.0)
 
 		assertTupleEqual(a, 4.3, -4.2, 3.1, 1.0, t)
@@ -24,7 +24,7 @@ func TestTuples(t *testing.T) {
 		}
 	})
 
-	t.Run("A Tuple can be a Vector", func(t *testing.T) {
+	t.Run("A tuple with w=0 is a vector", func(t *testing.T) {
 		a := tuples.NewTuple(4.3, -4.2, 3.1, 0.0)
 
 		assertTupleEqual(a, 4.3, -4.2, 3.1, 0.0, t)
@@ -38,13 +38,13 @@ func TestTuples(t *testing.T) {
 		}
 	})
 
-	t.Run("NewPoint creates a Point", func(t *testing.T) {
+	t.Run("NewPoint creates tuples with w=1", func(t *testing.T) {
 		point := tuples.NewPoint(4, -4, 3)
 
 		assertTupleEqual(point, 4, -4, 3, 1, t)
 	})
 
-	t.Run("NewVector creates a Vector", func(t *testing.T) {
+	t.Run("NewVector creates tuples with w=0", func(t *testing.T) {
 		point := tuples.NewVector(4.3, -4.2, 3.1)
 
 		if !point.IsVector() {
