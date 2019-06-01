@@ -105,9 +105,21 @@ func TestSubtraction(t *testing.T) {
 
 		assertEqual(difference, expected, t)
 	})
+
+	t.Run("Subtracting two vectors", func(t *testing.T) {
+		v1 := tuples.NewVector(3, 2, 1)
+		v2 := tuples.NewVector(5, 6, 7)
+
+		difference := v1.Subtract(v2)
+		expected := tuples.NewVector(-2, -4, -6)
+
+		assertEqual(difference, expected, t)
+	})
 }
 
 func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
+	t.Helper()
+
 	if !actual.Equal(expected) {
 		t.Errorf("expected %v, but got %v", expected, actual)
 	}
