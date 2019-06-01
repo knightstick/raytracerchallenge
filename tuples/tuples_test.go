@@ -24,7 +24,7 @@ func TestTuples(t *testing.T) {
 		}
 	})
 
-	t.Run("A tuple with w=0 is a vector", func(t *testing.T) {
+	t.Run("A tuple with w=0 is a Vector", func(t *testing.T) {
 		a := tuples.NewTuple(4.3, -4.2, 3.1, 0.0)
 
 		assertTupleEqual(a, 4.3, -4.2, 3.1, 0.0, t)
@@ -96,7 +96,7 @@ func TestSubtraction(t *testing.T) {
 		assertEqual(difference, expected, t)
 	})
 
-	t.Run("Subtracting a vector from a point", func(t *testing.T) {
+	t.Run("Subtracting a Vector from a point", func(t *testing.T) {
 		p := tuples.NewPoint(3, 2, 1)
 		v := tuples.NewVector(5, 6, 7)
 
@@ -106,7 +106,7 @@ func TestSubtraction(t *testing.T) {
 		assertEqual(difference, expected, t)
 	})
 
-	t.Run("Subtracting two vectors", func(t *testing.T) {
+	t.Run("Subtracting two Vectors", func(t *testing.T) {
 		v1 := tuples.NewVector(3, 2, 1)
 		v2 := tuples.NewVector(5, 6, 7)
 
