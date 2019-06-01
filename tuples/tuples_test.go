@@ -1,10 +1,13 @@
 package tuples_test
 
 import (
+	"math"
 	"testing"
 
 	"github.com/knightstick/raytracerchallenge/tuples"
 )
+
+const epsilon = 0.01
 
 func TestTuples(t *testing.T) {
 	t.Run("A Tuple can be a Point", func(t *testing.T) {
@@ -21,7 +24,7 @@ func TestTuples(t *testing.T) {
 		}
 	})
 
-	t.Run("A Tuple can be a Point", func(t *testing.T) {
+	t.Run("A Tuple can be a Vector", func(t *testing.T) {
 		a := tuples.NewTuple(4.3, -4.2, 3.1, 0.0)
 
 		assertTupleEqual(a, 4.3, -4.2, 3.1, 0.0, t)
@@ -36,11 +39,9 @@ func TestTuples(t *testing.T) {
 	})
 
 	t.Run("NewPoint creates a Point", func(t *testing.T) {
-		point := tuples.NewPoint(4.3, -4.2, 3.1)
+		point := tuples.NewPoint(4, -4, 3)
 
-		if !point.IsPoint() {
-			t.Errorf("expected %v to be a Point", point)
-		}
+		assertTupleEqual(point, 4, -4, 3, 1, t)
 	})
 
 	t.Run("NewVector creates a Vector", func(t *testing.T) {
@@ -52,19 +53,19 @@ func TestTuples(t *testing.T) {
 	})
 }
 
-func assertEqual(actual, expected float32, t *testing.T) {
+func assertInEpsilon(actual, expected float64, t *testing.T) {
 	t.Helper()
 
-	if actual != expected {
-		t.Errorf("expected %b to equal %b", actual, expected)
+	if math.Abs(actual-expected) > epsilon {
+		t.Errorf("expected %f to be approximately equal to %f", actual, expected)
 	}
 }
 
 func assertTupleEqual(tup tuples.Tuple, x, y, z, w float64, t *testing.T) {
 	t.Helper()
 
-	assertEqual(tup.X, 4.3, t)
-	assertEqual(tup.Y, -4.2, t)
-	assertEqual(tup.Z, 3.1, t)
-	assertEqual(tup.W, 1.0, t)
+	assertInEpsilon(tup.X, x, t)
+	assertInEpsilon(tup.Y, y, t)
+	assertInEpsilon(tup.Z, z, t)
+	assertInEpsilon(tup.W, w, t)
 }
