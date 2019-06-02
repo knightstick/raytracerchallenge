@@ -19,7 +19,7 @@ type environment struct {
 func main() {
 	// Projectile starts one unit about the origin
 	// Velocity is normalized to 1 unit/tick
-	p := projectile{tuples.NewPoint(0, 1, 0), tuples.NewVector(0, 1, 0).Normalize()}
+	p := projectile{tuples.NewPoint(0, 1, 0), tuples.Normalize(tuples.NewVector(0, 1, 0))}
 
 	// Gravity -0.1 unit/tick, and wind is -0.01 unit/tick
 	e := environment{tuples.NewVector(0, -0.1, 0), tuples.NewVector(-0.01, 0, 0)}
@@ -39,8 +39,8 @@ func main() {
 }
 
 func tick(env environment, proj projectile) projectile {
-	position := proj.Position.Add(proj.velocity)
-	velocity := proj.velocity.Add(env.gravity).Add(env.wind)
+	position := tuples.Add(proj.Position, proj.velocity)
+	velocity := tuples.Add(env.wind, tuples.Add(proj.velocity, env.gravity))
 
 	return projectile{position, velocity}
 }
