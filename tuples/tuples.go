@@ -40,14 +40,14 @@ func (t Tuple) IsVector() bool {
 
 // Equal checks all fields in the Tuple are within a small distance from each
 // other
-func (t Tuple) Equal(other Tuple) bool {
+func Equal(t, other Tuple) bool {
 	return inEpsilon(t.X, other.X) && inEpsilon(t.Y, other.Y) &&
 		inEpsilon(t.Z, other.Z) && inEpsilon(t.W, other.W)
 }
 
 // Add returns a new Tuple which results from adding the other Tuple to the
 // first
-func (t Tuple) Add(other Tuple) Tuple {
+func Add(t, other Tuple) Tuple {
 	return NewTuple(t.X+other.X,
 		t.Y+other.Y,
 		t.Z+other.Z,
@@ -56,7 +56,7 @@ func (t Tuple) Add(other Tuple) Tuple {
 
 // Subtract returns a new Tuple which results from subtracting the other Tuple to the
 // first
-func (t Tuple) Subtract(other Tuple) Tuple {
+func Subtract(t, other Tuple) Tuple {
 	return NewTuple(t.X-other.X,
 		t.Y-other.Y,
 		t.Z-other.Z,
@@ -64,36 +64,36 @@ func (t Tuple) Subtract(other Tuple) Tuple {
 }
 
 // Negate returns a new Tuple which negates each component of the Tuple
-func (t Tuple) Negate() Tuple {
+func Negate(t Tuple) Tuple {
 	return NewTuple(-t.X, -t.Y, -t.Z, -t.W)
 }
 
 // Multiply returns a new Tuple which represents the Tuple multiplied by a
 // scalar value
-func (t Tuple) Multiply(n float64) Tuple {
+func Multiply(t Tuple, n float64) Tuple {
 	return NewTuple(t.X*n, t.Y*n, t.Z*n, t.W*n)
 }
 
 // Divide returns a new Tuple which represents the Tuple divided by a scalar
 // value
-func (t Tuple) Divide(n float64) Tuple {
-	return t.Multiply(1 / n)
+func Divide(t Tuple, n float64) Tuple {
+	return Multiply(t, 1/n)
 }
 
 // Normalize returns a unit Vector in the same direction as the Tuple
-func (t Tuple) Normalize() Tuple {
-	return t.Divide(t.Magnitude())
+func Normalize(t Tuple) Tuple {
+	return Divide(t, Magnitude(t))
 }
 
 // Magnitude returns the length of a Vector, computed by summing the squares
 // of each value, then taking the square root
-func (t Tuple) Magnitude() float64 {
+func Magnitude(t Tuple) float64 {
 	return math.Sqrt(t.X*t.X + t.Y*t.Y + t.Z*t.Z + t.W*t.W)
 }
 
 // Dot or scalar product returns a scalar value from two Vectors, can be used
 // to represent the angle between two Vectors
-func (t Tuple) Dot(other Tuple) float64 {
+func Dot(t, other Tuple) float64 {
 	return (t.X * other.X) +
 		(t.Y * other.Y) +
 		(t.Z * other.Z) +
@@ -102,7 +102,7 @@ func (t Tuple) Dot(other Tuple) float64 {
 
 // Cross or Vector product returns a new Vector that is perpendicular to both
 // Vectors
-func (t Tuple) Cross(other Tuple) Tuple {
+func Cross(t, other Tuple) Tuple {
 	return NewVector((t.Y*other.Z)-(t.Z*other.Y),
 		(t.Z*other.X)-(t.X*other.Z),
 		(t.X*other.Y)-(t.Y*other.X))
