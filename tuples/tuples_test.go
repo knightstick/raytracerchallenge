@@ -254,6 +254,16 @@ func TestCrossProduct(t *testing.T) {
 	})
 }
 
+func TestColors(t *testing.T) {
+	t.Run("Colors are (red, green, blue) tuples", func(t *testing.T) {
+		c := tuples.NewColor(-0.5, 0.4, 1.7)
+
+		assertInEpsilon(c.Red, -0.5, t)
+		assertInEpsilon(c.Green, 0.4, t)
+		assertInEpsilon(c.Blue, 1.7, t)
+	})
+}
+
 func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
 	t.Helper()
 

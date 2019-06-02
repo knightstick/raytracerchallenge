@@ -10,6 +10,12 @@ type Tuple struct {
 	W float64
 }
 
+type Color struct {
+	Red   float64
+	Green float64
+	Blue  float64
+}
+
 const pointW = 1.0
 const vectorW = 0.0
 
@@ -26,6 +32,10 @@ func NewPoint(x, y, z float64) Tuple {
 // NewVector instatiates a new Vector
 func NewVector(x, y, z float64) Tuple {
 	return Tuple{X: x, Y: y, Z: z, W: vectorW}
+}
+
+func NewColor(r, g, b float64) Color {
+	return Color{Red: r, Green: g, Blue: b}
 }
 
 // IsPoint checks if a Tuple is a Point
