@@ -11,29 +11,29 @@ const epsilon = 0.00001
 
 func TestTuples(t *testing.T) {
 	t.Run("A Tuple with w=1.0 is a point", func(t *testing.T) {
-		a := tuples.NewTuple(4.3, -4.2, 3.1, 1.0)
+		a := tuples.Point(tuples.New(4.3, -4.2, 3.1, 1.0))
 
-		assertTupleEqual(a, 4.3, -4.2, 3.1, 1.0, t)
+		assertPointEquals(a, 4.3, -4.2, 3.1, 1.0, t)
 
-		if !a.IsPoint() {
+		if !tuples.IsPoint(a) {
 			t.Errorf("expected %v to be a Point", a)
 		}
 
-		if a.IsVector() {
-			t.Errorf("expected %v not to be a Vector", a)
+		if tuples.IsVector(a) {
+			t.Errorf("expected %v to be a Point", a)
 		}
 	})
 
 	t.Run("A tuple with w=0 is a Vector", func(t *testing.T) {
-		a := tuples.NewTuple(4.3, -4.2, 3.1, 0.0)
+		a := tuples.Vector(tuples.New(4.3, -4.2, 3.1, 0.0))
 
-		assertTupleEqual(a, 4.3, -4.2, 3.1, 0.0, t)
+		assertPointEquals(a, 4.3, -4.2, 3.1, 0.0, t)
 
-		if a.IsPoint() {
+		if tuples.IsPoint(a) {
 			t.Errorf("expected %v not to be a Point", a)
 		}
 
-		if !a.IsVector() {
+		if !tuples.IsVector(a) {
 			t.Errorf("expected %v to be a Vector", a)
 		}
 	})
@@ -41,13 +41,19 @@ func TestTuples(t *testing.T) {
 	t.Run("NewPoint creates tuples with w=1", func(t *testing.T) {
 		point := tuples.NewPoint(4, -4, 3)
 
-		assertTupleEqual(point, 4, -4, 3, 1, t)
+		assertPointEquals(point, 4, -4, 3, 1, t)
+
+		if !tuples.IsPoint(point) {
+			t.Errorf("expected %v to be a Point", point)
+		}
 	})
 
 	t.Run("NewVector creates tuples with w=0", func(t *testing.T) {
 		point := tuples.NewVector(4.3, -4.2, 3.1)
 
-		if !point.IsVector() {
+		assertPointEquals(point, 4.3, -4.2, 3.1, 0, t)
+
+		if !tuples.IsVector(point) {
 			t.Errorf("expected %v to be a Vector", point)
 		}
 	})
@@ -55,32 +61,32 @@ func TestTuples(t *testing.T) {
 
 func TestTupleEquality(t *testing.T) {
 	t.Run("Two Tuples are equal if all the values are very close", func(t *testing.T) {
-		t1 := tuples.NewTuple(1.0, 2.5, 4.999, 0)
-		t2 := tuples.NewTuple(1.0000001, 2.50000056, 4.999000008, 0)
+		t1 := tuples.New(1.0, 2.5, 4.999, 0)
+		t2 := tuples.New(1.0000001, 2.50000056, 4.999000008, 0)
 
-		if !t1.Equal(t2) {
+		if !tuples.Equal(t1, t2) {
 			t.Errorf("expected %v to be equal to %v", t1, t2)
 		}
 	})
 
 	t.Run("Two Tuples are not equal if the values are different", func(t *testing.T) {
-		t1 := tuples.NewTuple(1.0, 2.5, 4.999, 0)
-		t2 := tuples.NewTuple(5.0, 2.5, 4.999, 0)
+		t1 := tuples.New(1.0, 2.5, 4.999, 0)
+		t2 := tuples.New(5.0, 2.5, 4.999, 0)
 
-		if t1.Equal(t2) {
+		if tuples.Equal(t1, t2) {
 			t.Errorf("expected %v not to be equal to %v", t1, t2)
 		}
 	})
 }
 
 func TestAddition(t *testing.T) {
-	a1 := tuples.NewTuple(3, -2, 5, 1)
-	a2 := tuples.NewTuple(-2, 3, 1, 0)
+	a1 := tuples.New(3, -2, 5, 1)
+	a2 := tuples.New(-2, 3, 1, 0)
 
-	sum := a1.Add(a2)
-	expected := tuples.NewTuple(1, 1, 6, 1)
+	sum := tuples.Add(a1, a2)
+	expected := tuples.New(1, 1, 6, 1)
 
-	if !sum.Equal(expected) {
+	if !tuples.Equal(sum, expected) {
 		t.Errorf("expected %v, but got %v", expected, sum)
 	}
 }
@@ -90,7 +96,7 @@ func TestSubtraction(t *testing.T) {
 		p1 := tuples.NewPoint(3, 2, 1)
 		p2 := tuples.NewPoint(5, 6, 7)
 
-		difference := p1.Subtract(p2)
+		difference := tuples.Subtract(p1, p2)
 		expected := tuples.NewVector(-2, -4, -6)
 
 		assertEqual(difference, expected, t)
@@ -100,7 +106,7 @@ func TestSubtraction(t *testing.T) {
 		p := tuples.NewPoint(3, 2, 1)
 		v := tuples.NewVector(5, 6, 7)
 
-		difference := p.Subtract(v)
+		difference := tuples.Subtract(p, v)
 		expected := tuples.NewPoint(-2, -4, -6)
 
 		assertEqual(difference, expected, t)
@@ -110,7 +116,7 @@ func TestSubtraction(t *testing.T) {
 		v1 := tuples.NewVector(3, 2, 1)
 		v2 := tuples.NewVector(5, 6, 7)
 
-		difference := v1.Subtract(v2)
+		difference := tuples.Subtract(v1, v2)
 		expected := tuples.NewVector(-2, -4, -6)
 
 		assertEqual(difference, expected, t)
@@ -122,33 +128,33 @@ func TestNegation(t *testing.T) {
 		zero := tuples.NewVector(0, 0, 0)
 		v := tuples.NewVector(1, -2, 3)
 
-		assertEqual(zero.Subtract(v), tuples.NewVector(-1, 2, -3), t)
+		assertEqual(tuples.Subtract(zero, v), tuples.NewVector(-1, 2, -3), t)
 	})
 
 	t.Run("Negating a Tuple", func(t *testing.T) {
-		v := tuples.NewTuple(1, -2, 3, -4)
+		v := tuples.New(1, -2, 3, -4)
 
-		assertEqual(v.Negate(), tuples.NewTuple(-1, 2, -3, 4), t)
+		assertEqual(tuples.Negate(v), tuples.New(-1, 2, -3, 4), t)
 	})
 }
 
 func TestMultiplicationAndDivision(t *testing.T) {
 	t.Run("Multiplying a Tuple by a scalar", func(t *testing.T) {
-		a := tuples.NewTuple(1, -2, 3, -4)
+		a := tuples.New(1, -2, 3, -4)
 
-		assertEqual(a.Multiply(3.5), tuples.NewTuple(3.5, -7, 10.5, -14), t)
+		assertEqual(tuples.Multiply(a, 3.5), tuples.New(3.5, -7, 10.5, -14), t)
 	})
 
 	t.Run("Multiplying a Tuple by a fraction", func(t *testing.T) {
-		a := tuples.NewTuple(1, -2, 3, -4)
+		a := tuples.New(1, -2, 3, -4)
 
-		assertEqual(a.Multiply(0.5), tuples.NewTuple(0.5, -1, 1.5, -2), t)
+		assertEqual(tuples.Multiply(a, 0.5), tuples.New(0.5, -1, 1.5, -2), t)
 	})
 
 	t.Run("Dividing a Tuple by a scalar", func(t *testing.T) {
-		a := tuples.NewTuple(1, -2, 3, -4)
+		a := tuples.New(1, -2, 3, -4)
 
-		assertEqual(a.Divide(2), tuples.NewTuple(0.5, -1, 1.5, -2), t)
+		assertEqual(tuples.Divide(a, 2), tuples.New(0.5, -1, 1.5, -2), t)
 	})
 }
 
@@ -156,7 +162,7 @@ func TestMagnitude(t *testing.T) {
 	t.Run("Computing the magnitude of Vector(1,0,0)", func(t *testing.T) {
 		v := tuples.NewVector(1, 0, 0)
 
-		magnitude := v.Magnitude()
+		magnitude := tuples.Magnitude(v)
 
 		if magnitude != 1 {
 			t.Errorf("expected magnitude of %v to be 1, got %f", v, magnitude)
@@ -166,7 +172,7 @@ func TestMagnitude(t *testing.T) {
 	t.Run("Computing the magnitude of Vector(0,1,0)", func(t *testing.T) {
 		v := tuples.NewVector(0, 1, 0)
 
-		magnitude := v.Magnitude()
+		magnitude := tuples.Magnitude(v)
 
 		if magnitude != 1 {
 			t.Errorf("expected magnitude of %v to be 1, got %f", v, magnitude)
@@ -176,7 +182,7 @@ func TestMagnitude(t *testing.T) {
 	t.Run("Computing the magnitude of Vector(0,0,1)", func(t *testing.T) {
 		v := tuples.NewVector(0, 0, 1)
 
-		magnitude := v.Magnitude()
+		magnitude := tuples.Magnitude(v)
 
 		if magnitude != 1 {
 			t.Errorf("expected magnitude of %v to be 1, got %f", v, magnitude)
@@ -186,21 +192,17 @@ func TestMagnitude(t *testing.T) {
 	t.Run("Computing the magnitude of Vector(1,2,3)", func(t *testing.T) {
 		v := tuples.NewVector(1, 2, 3)
 
-		magnitude := v.Magnitude()
+		magnitude := tuples.Magnitude(v)
 
-		if magnitude != math.Sqrt(14) {
-			t.Errorf("expected magnitude of %v to be √14, got %f", v, magnitude)
-		}
+		assertInEpsilon(magnitude, math.Sqrt(14), t)
 	})
 
 	t.Run("Computing the magnitude of Vector(-1,-2,-3)", func(t *testing.T) {
 		v := tuples.NewVector(-1, -2, -3)
 
-		magnitude := v.Magnitude()
+		magnitude := tuples.Magnitude(v)
 
-		if magnitude != math.Sqrt(14) {
-			t.Errorf("expected magnitude of %v to be √14, got %f", v, magnitude)
-		}
+		assertInEpsilon(magnitude, math.Sqrt(14), t)
 	})
 }
 
@@ -208,7 +210,7 @@ func TestNormalizing(t *testing.T) {
 	t.Run("Normalizing Vector (4, 0, 0) gives (1, 0, 0)", func(t *testing.T) {
 		v := tuples.NewVector(4, 0, 0)
 
-		assertEqual(v.Normalize(), tuples.NewVector(1, 0, 0), t)
+		assertEqual(tuples.Normalize(v), tuples.NewVector(1, 0, 0), t)
 	})
 
 	t.Run("Normalizing Vector (1, 2, 3)", func(t *testing.T) {
@@ -216,16 +218,16 @@ func TestNormalizing(t *testing.T) {
 
 		expected := tuples.NewVector(0.26726, 0.53452, 0.80178)
 
-		assertEqual(v.Normalize(), expected, t)
+		assertEqual(tuples.Normalize(v), tuples.Tuple(expected), t)
 	})
 
 	t.Run("The magnitude of a normalized Vector", func(t *testing.T) {
 		v := tuples.NewVector(1, 2, 3)
-		norm := v.Normalize()
+		norm := tuples.Normalize(v)
 
-		actualMagnitude := norm.Magnitude()
+		actualMagnitude := tuples.Magnitude(norm)
 
-		if norm.Magnitude() != 1 {
+		if actualMagnitude != 1 {
 			t.Errorf("expected %v to have magnitude 1, but got %f", norm, actualMagnitude)
 		}
 	})
@@ -235,7 +237,7 @@ func TestDotProduct(t *testing.T) {
 	t.Run("The dot product of two tuples", func(t *testing.T) {
 		a := tuples.NewVector(1, 2, 3)
 		b := tuples.NewVector(2, 3, 4)
-		dot := a.Dot(b)
+		dot := tuples.Dot(a, b)
 
 		if dot != 20 {
 			t.Errorf("expected dot product of %v and %v to equal 20, but got %f",
@@ -249,16 +251,83 @@ func TestCrossProduct(t *testing.T) {
 		a := tuples.NewVector(1, 2, 3)
 		b := tuples.NewVector(2, 3, 4)
 
-		assertEqual(a.Cross(b), tuples.NewVector(-1, 2, -1), t)
-		assertEqual(b.Cross(a), tuples.NewVector(1, -2, 1), t)
+		assertEqual(tuples.Cross(a, b), tuples.NewVector(-1, 2, -1), t)
+		assertEqual(tuples.Cross(b, a), tuples.NewVector(1, -2, 1), t)
 	})
 }
 
-func assertEqual(actual, expected tuples.Tuple, t *testing.T) {
+func TestColors(t *testing.T) {
+	t.Run("Colors are (red, green, blue) tuples", func(t *testing.T) {
+		c := tuples.NewColor(-0.5, 0.4, 1.7)
+
+		assertInEpsilon(c.Red(), -0.5, t)
+		assertInEpsilon(c.Green(), 0.4, t)
+		assertInEpsilon(c.Blue(), 1.7, t)
+	})
+}
+
+func TestColorOperations(t *testing.T) {
+	t.Run("Adding colors", func(t *testing.T) {
+		c1 := tuples.NewColor(0.9, 0.6, 0.75)
+		c2 := tuples.NewColor(0.7, 0.1, 0.25)
+
+		sum := tuples.Add(c1, c2)
+
+		assertEqual(sum, tuples.NewColor(1.6, 0.7, 1.0), t)
+	})
+
+	t.Run("Subtracting colors", func(t *testing.T) {
+		c1 := tuples.NewColor(0.9, 0.6, 0.75)
+		c2 := tuples.NewColor(0.7, 0.1, 0.25)
+
+		difference := tuples.Subtract(c1, c2)
+
+		assertEqual(difference, tuples.NewColor(0.2, 0.5, 0.5), t)
+	})
+
+	t.Run("Multiplying a color by a scalar", func(t *testing.T) {
+		c := tuples.NewColor(0.2, 0.3, 0.4)
+
+		product := tuples.Multiply(c, 2)
+
+		assertEqual(product, tuples.NewColor(0.4, 0.6, 0.8), t)
+	})
+
+	t.Run("Multiplying colors", func(t *testing.T) {
+		c1 := tuples.NewColor(1, 0.2, 0.4)
+		c2 := tuples.NewColor(0.9, 1, 0.1)
+
+		product := tuples.MultiplyColors(c1, c2)
+
+		assertEqual(product, tuples.NewColor(0.9, 0.2, 0.04), t)
+	})
+}
+
+func assertEqual(actual, expected tuples.Tuplelike, t *testing.T) {
 	t.Helper()
 
-	if !actual.Equal(expected) {
+	if !tuples.Equal(actual, expected) {
 		t.Errorf("expected %v, but got %v", expected, actual)
+	}
+}
+
+func assertPointEquals(actual tuples.Pointlike, x, y, z, w float64, t *testing.T) {
+	t.Helper()
+
+	if actual.X() != x {
+		t.Errorf("expected %v.X() to equal %f", actual, actual.X())
+	}
+
+	if actual.Y() != y {
+		t.Errorf("expected %v.X() to equal %f", actual, actual.X())
+	}
+
+	if actual.Z() != z {
+		t.Errorf("expected %v.X() to equal %f", actual, actual.X())
+	}
+
+	if actual.W() != w {
+		t.Errorf("expected %v.X() to equal %f", actual, actual.X())
 	}
 }
 
@@ -268,15 +337,6 @@ func assertInEpsilon(actual, expected float64, t *testing.T) {
 	if approximatelyEqual(actual, expected) {
 		t.Errorf("expected %f to be approximately equal to %f", actual, expected)
 	}
-}
-
-func assertTupleEqual(tup tuples.Tuple, x, y, z, w float64, t *testing.T) {
-	t.Helper()
-
-	assertInEpsilon(tup.X, x, t)
-	assertInEpsilon(tup.Y, y, t)
-	assertInEpsilon(tup.Z, z, t)
-	assertInEpsilon(tup.W, w, t)
 }
 
 func approximatelyEqual(a, b float64) bool {
