@@ -2,11 +2,13 @@ package tuples
 
 import "math"
 
+// A Tuplelike can be used like a Tuple, for things like the Dot product
 type Tuplelike interface {
 	Values() []float64
 	At(idx int) float64
 }
 
+// A Pointlike translates values to coordinates, like X and Y
 type Pointlike interface {
 	X() float64
 	Y() float64
@@ -14,86 +16,109 @@ type Pointlike interface {
 	W() float64
 }
 
+// A Tuple is a list of float64s of any length
 type Tuple []float64
 
+// Values returns the contents of the Tuple
 func (t Tuple) Values() []float64 {
 	return t
 }
 
+// At returns a value at a particular index
 func (t Tuple) At(idx int) float64 {
 	return t[idx]
 }
 
+// A Point represents a point in 3 dimensional space
 type Point []float64
 
+// Values returns the contents as a Tuplelike list
 func (p Point) Values() []float64 {
 	return p
 }
 
+// At returns the value at a particular index
 func (p Point) At(idx int) float64 {
 	return p[idx]
 }
 
+// X is a cardinal direction
 func (p Point) X() float64 {
 	return p[0]
 }
 
+// Y is a cardinal direction
 func (p Point) Y() float64 {
 	return p[1]
 }
 
+// Z is a cardinal direction
 func (p Point) Z() float64 {
 	return p[2]
 }
 
+// W can be used to discriminate a Point Tuple from a Vector one
 func (p Point) W() float64 {
 	return p[3]
 }
 
+// A Vector represents a quantity with a direction in 3 dimensions
 type Vector []float64
 
+// Values returns the contents as a Tuplelike list
 func (v Vector) Values() []float64 {
 	return v
 }
 
+// At returns the value at a particular index
 func (v Vector) At(idx int) float64 {
 	return v[idx]
 }
 
+// X is a cardinal direction
 func (v Vector) X() float64 {
 	return v[0]
 }
 
+// Y is a cardinal direction
 func (v Vector) Y() float64 {
 	return v[1]
 }
 
+// Z is a cardinal direction
 func (v Vector) Z() float64 {
 	return v[2]
 }
 
+// W can be used to discriminate a Point Tuple from a Vector one
 func (v Vector) W() float64 {
 	return v[3]
 }
 
+// Color is a length 3 Tuple containing Red, Green and Blue components
 type Color []float64
 
+// Values returns the contents as a Tuplelike list
 func (c Color) Values() []float64 {
 	return c
 }
 
+// At returns the value at a particular index
 func (c Color) At(idx int) float64 {
 	return c[idx]
 }
 
+// Red returns the red component of the color
 func (c Color) Red() float64 {
 	return c[0]
 }
 
+// Green returns the green component of the color
 func (c Color) Green() float64 {
 	return c[1]
 }
 
+// Blue returns the blue component of the color
 func (c Color) Blue() float64 {
 	return c[2]
 }
@@ -116,14 +141,17 @@ func NewVector(x, y, z float64) Vector {
 	return Vector{x, y, z, vectorW}
 }
 
+// NewColor instantiates a new Color
 func NewColor(r, g, b float64) Color {
 	return Color{r, g, b}
 }
 
+// IsPoint can be used to check if a Tuplelike is a Point or not
 func IsPoint(t Tuplelike) bool {
 	return t.At(3) == pointW
 }
 
+// IsVector can be used to check if a Tuplelike is a Vector or not
 func IsVector(t Tuplelike) bool {
 	return t.At(3) == vectorW
 }
@@ -187,6 +215,7 @@ func Multiply(t Tuplelike, n float64) Tuplelike {
 	return Tuple(result)
 }
 
+// MultiplyColors takes two colors and returns their hadamard_product
 func MultiplyColors(c1, c2 Color) Color {
 	return NewColor(c1.Red()*c2.Red(),
 		c1.Green()*c2.Green(),
