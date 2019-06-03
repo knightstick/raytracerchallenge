@@ -266,6 +266,43 @@ func TestColors(t *testing.T) {
 	})
 }
 
+func TestColorOperations(t *testing.T) {
+	t.Run("Adding colors", func(t *testing.T) {
+		c1 := tuples.NewColor(0.9, 0.6, 0.75)
+		c2 := tuples.NewColor(0.7, 0.1, 0.25)
+
+		sum := tuples.Add(c1, c2)
+
+		assertEqual(sum, tuples.NewColor(1.6, 0.7, 1.0), t)
+	})
+
+	t.Run("Subtracting colors", func(t *testing.T) {
+		c1 := tuples.NewColor(0.9, 0.6, 0.75)
+		c2 := tuples.NewColor(0.7, 0.1, 0.25)
+
+		difference := tuples.Subtract(c1, c2)
+
+		assertEqual(difference, tuples.NewColor(0.2, 0.5, 0.5), t)
+	})
+
+	t.Run("Multiplying a color by a scalar", func(t *testing.T) {
+		c := tuples.NewColor(0.2, 0.3, 0.4)
+
+		product := tuples.Multiply(c, 2)
+
+		assertEqual(product, tuples.NewColor(0.4, 0.6, 0.8), t)
+	})
+
+	t.Run("Multiplying colors", func(t *testing.T) {
+		c1 := tuples.NewColor(1, 0.2, 0.4)
+		c2 := tuples.NewColor(0.9, 1, 0.1)
+
+		product := tuples.MultiplyColors(c1, c2)
+
+		assertEqual(product, tuples.NewColor(0.9, 0.2, 0.04), t)
+	})
+}
+
 func assertEqual(actual, expected tuples.Tuplelike, t *testing.T) {
 	t.Helper()
 

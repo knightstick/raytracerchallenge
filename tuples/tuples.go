@@ -187,6 +187,12 @@ func Multiply(t Tuplelike, n float64) Tuplelike {
 	return Tuple(result)
 }
 
+func MultiplyColors(c1, c2 Color) Color {
+	return NewColor(c1.Red()*c2.Red(),
+		c1.Green()*c2.Green(),
+		c1.Blue()*c2.Blue())
+}
+
 // Divide returns a new Tuple which represents the Tuple divided by a scalar
 // value
 func Divide(t Tuplelike, n float64) Tuplelike {
