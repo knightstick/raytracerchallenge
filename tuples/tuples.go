@@ -78,6 +78,14 @@ func (v Vector) W() float64 {
 
 type Color []float64
 
+func (c Color) Values() []float64 {
+	return c
+}
+
+func (c Color) At(idx int) float64 {
+	return c[idx]
+}
+
 func (c Color) Red() float64 {
 	return c[0]
 }
